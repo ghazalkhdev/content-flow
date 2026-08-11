@@ -23,6 +23,7 @@ export function Topbar({ onMenuClick }: { onMenuClick: () => void }) {
   const currentUser = teamMembers[0];
   const router = useRouter();
   const [query, setQuery] = useState("");
+  const [userMenuKey, setUserMenuKey] = useState(0);
   const searchRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -105,6 +106,7 @@ export function Topbar({ onMenuClick }: { onMenuClick: () => void }) {
         </Button>
 
         <Dropdown
+          key={userMenuKey}
           width="sm"
           trigger={
             <button className="ml-1 flex cursor-pointer items-center gap-2 rounded-full p-0.5 transition-colors hover:bg-muted">
@@ -123,7 +125,12 @@ export function Topbar({ onMenuClick }: { onMenuClick: () => void }) {
             <p className="text-xs text-muted-foreground">{currentUser.email}</p>
           </div>
           <MenuSeparator />
-          <MenuItem>
+          <MenuItem
+            onClick={() => {
+              setUserMenuKey((k) => k + 1);
+              router.push("/profile");
+            }}
+          >
             <UserRound className="h-4 w-4 text-muted-foreground" /> Profile
           </MenuItem>
           <MenuItem>
